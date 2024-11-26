@@ -4,7 +4,9 @@
 
 ## Installation
 
-go install github.com/nakario/fsplit@latest
+```sh
+go install github.com/nakario/fsplit/cmd/fsplit@latest
+```
 
 ## Usage
 
