@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"os"
 
@@ -8,12 +10,20 @@ import (
 )
 
 func main() {
-	// Check if the package path is provided
-	if len(os.Args) < 2 {
-		log.Fatalln("Usage: fsplit <package-path>")
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s <package-path>\n", os.Args[0])
+		flag.PrintDefaults()
 	}
 
-	packagePath := os.Args[1]
+	flag.Parse()
+
+	// Check if the package path is provided as a positional argument
+	if flag.NArg() < 1 {
+		flag.Usage()
+		log.Fatalln("Error: package path is required")
+	}
+
+	packagePath := flag.Arg(0)
 	if err := fsplit.RunFsplit(packagePath); err != nil {
 		log.Fatalf("Error running fsplit: %v\n", err)
 	}
